@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2025/08/12 21:03:51.000.851,=C:\Users\otavi\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2025/09/01 19:02:10.966,=C:\Users\otavi\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2025/09/01 19:04:49.863,C:\Users\otavi\Meu\Estudos\Curso Delphi\1 - Introdução ao Delphi\Aula_07\Calculadora\TelaPrincipal.pas=C:\Users\otavi\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2025/09/01 19:04:49.863,C:\Users\otavi\Meu\Estudos\Curso Delphi\1 - Introdução ao Delphi\Aula_07\Calculadora\TelaPrincipal.dfm=C:\Users\otavi\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2025/09/01 19:04:53.588,C:\Users\otavi\Meu\Estudos\Curso Delphi\1 - Introdução ao Delphi\Aula_07\Calculadora\Calculadora.dproj=C:\Users\otavi\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

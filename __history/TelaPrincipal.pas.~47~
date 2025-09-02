@@ -1,0 +1,225 @@
+unit TelaPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TForm1 = class(TForm)
+    lblResultado: TLabel;
+    edtResultado: TEdit;
+    pnlNumero1: TPanel;
+    sbtnNumero1: TSpeedButton;
+    pnlNumero2: TPanel;
+    sbtnNumero2: TSpeedButton;
+    pnlNumero3: TPanel;
+    sbtnNumero3: TSpeedButton;
+    pnlDividir: TPanel;
+    sbtnDividir: TSpeedButton;
+    pnlNumero4: TPanel;
+    sbtnNumero4: TSpeedButton;
+    pnlNumero5: TPanel;
+    sbtnNumero5: TSpeedButton;
+    pnlNumero6: TPanel;
+    sbtnNumero6: TSpeedButton;
+    pnlMultiplicar: TPanel;
+    sbtnMultiplicar: TSpeedButton;
+    pnlNumero7: TPanel;
+    sbtnNumero7: TSpeedButton;
+    pnlNumero8: TPanel;
+    sbtnNumero8: TSpeedButton;
+    pnlNumero9: TPanel;
+    sbtnNumero9: TSpeedButton;
+    pnlSubtrair: TPanel;
+    sbtnSubtrair: TSpeedButton;
+    pnlNumero0: TPanel;
+    sbtnNumero0: TSpeedButton;
+    pnlPonto: TPanel;
+    sbtnPonto: TSpeedButton;
+    pnlResultado: TPanel;
+    sbtnResultado: TSpeedButton;
+    pnlSomar: TPanel;
+    sbtnSomar: TSpeedButton;
+    pnlLimpar: TPanel;
+    sbtnLimpar: TSpeedButton;
+    procedure BotaoNumeroClick(Sender: TObject);
+    procedure sbtnPontoClick(Sender: TObject);
+    procedure sbtnLimparClick(Sender: TObject);
+    procedure BotaoExpressaoClick(Sender: TObject);
+    procedure sbtnResultadoClick(Sender: TObject);
+    procedure edtResultadoChange(Sender: TObject);
+  private
+    { Private declarations }
+    FNumero: double;
+    FExpressao: char;
+    procedure PreencherNumeroCalculo(pNumero: string);
+    procedure PreencherExpressaoCalculo(pExpressao: String);
+    procedure PreencherLabelCalculo;
+    procedure CalcularResultado;
+    procedure LimparTudo;
+    procedure Calcular;
+    function ObterResultado: double;
+    function Somar: double;
+    function Subtrair: double;
+    function Multiplicar: double;
+    function Dividir: double;
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+
+// Adiciona o número digitado ao edtResultado
+procedure TForm1.PreencherNumeroCalculo(pNumero: string);
+begin
+  edtResultado.Text := edtResultado.Text + pNumero;
+end;
+
+// Clique nos botões numéricos chama este procedimento
+procedure TForm1.BotaoNumeroClick(Sender: TObject);
+begin
+  PreencherNumeroCalculo(TSpeedButton(Sender).Caption);
+end;
+
+// Define o operador e prepara o cálculo
+procedure TForm1.PreencherExpressaoCalculo(pExpressao: string);
+begin
+  if (FNumero <> 0) then
+    Calcular;
+
+  FExpressao := pExpressao[1];
+  FNumero := ObterResultado;
+
+  PreencherLabelCalculo;
+  edtResultado.Clear;
+end;
+
+// Clique nos botões de operação chama este procedimento
+procedure TForm1.BotaoExpressaoClick(Sender: TObject);
+begin
+  PreencherExpressaoCalculo(TSpeedButton(Sender).Caption);
+end;
+
+// Limpa edtResultado, lblResultado e variáveis de controle
+procedure TForm1.LimparTudo;
+begin
+  edtResultado.Clear;
+  lblResultado.Caption := '0';
+  FNumero := 0;
+  FExpressao := #0;
+end;
+
+// Clique no botão de limpar chama este procedimento
+procedure TForm1.sbtnLimparClick(Sender: TObject);
+begin
+  LimparTudo;
+end;
+
+// Retorna o valor do edtResultado como double
+function TForm1.ObterResultado: double;
+begin
+  Result := StrToFloatDef(edtResultado.Text, 0);
+end;
+
+// Adiciona o ponto decimal se ainda não houver
+procedure TForm1.sbtnPontoClick(Sender: TObject);
+begin
+  if Pos(',', edtResultado.Text) = 0 then
+    PreencherNumeroCalculo(sbtnPonto.Caption);
+end;
+
+// Operação de soma
+function TForm1.Somar: double;
+begin
+  Result := FNumero + ObterResultado;
+end;
+
+// Operação de subtração
+function TForm1.Subtrair: double;
+begin
+  Result := FNumero - ObterResultado;
+end;
+
+// Operação de multiplização
+function TForm1.Multiplicar: double;
+begin
+  Result := FNumero * ObterResultado;
+end;
+
+// Operação de divisão
+function TForm1.Dividir: double;
+var
+  lNumeroResultado: double;
+begin
+  lNumeroResultado := ObterResultado;
+
+  if lNumeroResultado = 0 then
+  begin
+    ShowMessage('Erro: divisão por zero');
+    Exit;
+  end
+  else
+    Result := FNumero / lNumeroResultado;
+end;
+
+
+
+
+
+
+// Calcula o resultado final
+procedure TForm1.sbtnResultadoClick(Sender: TObject);
+begin
+  CalcularResultado;
+end;
+
+
+
+
+
+// Executa o cálculo baseado no operador atual
+procedure TForm1.Calcular;
+begin
+  case FExpressao of
+    '+': FNumero := Somar;
+    '-': FNumero := Subtrair;
+    '*': FNumero := Multiplicar;
+    '/': FNumero := Dividir;
+  end;
+
+  edtResultado.Text := FNumero.ToString;
+end;
+
+
+// Atualiza a lblResultado com o número e operador atual
+procedure TForm1.PreencherLabelCalculo;
+begin
+  lblResultado.Caption := FNumero.ToString + FExpressao;
+end;
+
+
+
+// Calcula o resultado final e reseta variáveis
+procedure TForm1.CalcularResultado;
+begin
+  Calcular;
+  FNumero := 0;
+  FExpressao := #0;
+  PreencherLabelCalculo;
+end;
+
+//Mantém o cursor sempre no final do Edit
+procedure TForm1.edtResultadoChange(Sender: TObject);
+begin
+  edtResultado.SelStart := Length(edtResultado.Text);
+end;
+
+end.
